@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  video_uri: MyString
+  user_id: MyString
+  description: MyText
+  audio_name: MyString
+  audio_uri: MyString
+  kind: MyString
+
+two:
+  video_uri: MyString
+  user_id: MyString
+  description: MyText
+  audio_name: MyString
+  audio_uri: MyString
+  kind: MyString
