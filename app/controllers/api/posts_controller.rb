@@ -1,6 +1,8 @@
 class Api::PostsController < ApplicationController
+    before_action :require_logged_in, only: [:create, :destroy, :update]
 
     def index
+        current_user
         @posts = Post.all.includes(:user, :likes, comments: :likes)
     end
 

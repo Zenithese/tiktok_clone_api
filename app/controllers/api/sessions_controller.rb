@@ -14,12 +14,21 @@ class Api::SessionsController < ApplicationController
   end
 
   def destroy
-    @user = current_user
+    @user = User.find_by(session_token: params[:id])
     if @user
-      logout
+      logout(@user)
+    end
+    head 204
+  end
+
+  # private
+
+  def validate_token
+    @user = User.find_by(id: params[:id], session_token: params[:token])
+    if @user
       render "api/users/show"
     else
-      render json: ["Nobody signed in"], status: 404
+      render json: ["User not authenticated"], status: 404
     end
   end
 end

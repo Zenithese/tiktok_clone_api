@@ -7,7 +7,13 @@ json.audio_name post.audio_name
 json.audio_uri post.audio_uri
 json.kind post.kind
 json.user post.user
-json.likes post.likes
+json.likes do
+    post.likes.each do |like|
+        json.set! like.user_id do
+            json.extract! like, :id
+        end
+    end
+end
 # json.comments post.comments
 json.comments do 
     json.array! post.comments, partial: "api/comments/comment", as: :comment

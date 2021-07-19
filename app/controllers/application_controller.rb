@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::API
   helper_method :current_user, :logged_in?
 
-  private
+  # private
 
   def current_user
     return nil unless session[:session_token]
@@ -18,9 +18,9 @@ class ApplicationController < ActionController::API
     @current_user = user
   end
 
-  def logout
-    current_user.reset_session_token!
-    session[:session_token] = nil
+  def logout(user)
+    user.reset_session_token!
+    # session[:session_token] = nil
     @current_user = nil
   end
 
@@ -28,5 +28,10 @@ class ApplicationController < ActionController::API
     unless current_user
       render json: { base: ['invalid credentials'] }, status: 401
     end
+  end
+
+  def authorized?(id, token)
+    user = User.find_by(id: id, session_token: token)
+    !!user
   end
 end
