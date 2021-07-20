@@ -8,7 +8,7 @@ class Api::LikesController < ApplicationController
         set_likeable
         @like = @likeable.likes.create(:user_id => params[:like][:user_id])
         if @like.save
-            # set_like_notifications
+            set_like_notification
 
             render_post
         else
@@ -19,6 +19,7 @@ class Api::LikesController < ApplicationController
     def destroy
         @like = Like.find(params[:id])
         # @like.notification.destroy if @like.notification
+        @like.notification.destroy
         @like.destroy
         @likeable = Object.const_get(@like.likeable_type).find(@like.likeable_id)
         render_post
@@ -38,6 +39,10 @@ class Api::LikesController < ApplicationController
                 : Object.const_get(@post.commentable_type).find(@post.commentable_id)
         end
         render "api/posts/show"
+    end
+
+    def set_like_notification
+        Notification.create!(recipient: @likeable.user, actor: User.find(params[:like][:user_id]), action: "liked", notifiable: @like)
     end
 
 end
