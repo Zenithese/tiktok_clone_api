@@ -42,7 +42,9 @@ class Api::LikesController < ApplicationController
     end
 
     def set_like_notification
-        Notification.create!(recipient: @likeable.user, actor: User.find(params[:like][:user_id]), action: "liked", notifiable: @like)
+        if params[:like][:user_id] != @likeable.user.id
+            Notification.create!(recipient: @likeable.user, actor: User.find(params[:like][:user_id]), action: "liked", notifiable: @like)
+        end
     end
 
 end

@@ -1,7 +1,7 @@
 class Api::NotificationsController < ApplicationController
 
     def index
-        @notifications = Notification.where(recipient: current_user).includes(:notifiable).order(:created_at)
+        @notifications = Notification.where(recipient: User.find(params[:user_id])).includes(:notifiable).order(:created_at)
         # + Notification.where(recipient: current_user).read
     end
 
@@ -13,5 +13,5 @@ class Api::NotificationsController < ApplicationController
             render json: @notification.errors.full_messages, status: 422
         end
     end
-    
+
 end
