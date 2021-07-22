@@ -6,7 +6,10 @@ json.description post.description
 json.audio_name post.audio_name
 json.audio_uri post.audio_uri
 json.kind post.kind
-json.user post.user
+json.user do
+    json.username post.user.username
+    json.image_uri post.user.user_image.url
+end
 json.likes do
     post.likes.each do |like|
         json.set! like.user_id do

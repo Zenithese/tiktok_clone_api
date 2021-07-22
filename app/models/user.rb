@@ -1,6 +1,11 @@
+require 'open-uri'
+
 class User < ApplicationRecord
+  after_initialize :ensure_default_image
 
   attr_reader :password
+
+  has_one_attached :user_image
 
   validates :username, :password_digest, :session_token, presence: true
   validates :username, uniqueness: true
@@ -55,5 +60,12 @@ class User < ApplicationRecord
       self.session_token = new_session_token
     end
     self.session_token
+  end
+
+  def ensure_default_image
+      unless self.user_image.attached?
+          file = open("https://thepowerofthedream.org/wp-content/uploads/2015/09/generic-profile-picture.jpg")
+          self.user_image.attach(io: file, filename: 'generic-profile-picture.jpg')
+      end
   end
 end
