@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class User < ApplicationRecord
-  after_initialize :ensure_default_image
+  # after_initialize :ensure_default_image
 
   attr_reader :password
 

@@ -4,6 +4,7 @@ class Api::SessionsController < ApplicationController
       params[:user][:username],
       params[:user][:password]
     )
+    # .includes(:posts, :followings, :followers)
 
     if @user
       login(@user)
