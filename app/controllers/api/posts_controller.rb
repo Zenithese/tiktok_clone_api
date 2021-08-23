@@ -1,6 +1,7 @@
-class Api::PostsController < ApplicationController
-    before_action :require_logged_in, only: [:create, :destroy, :update]
+require 'open-uri'
 
+class Api::PostsController < ApplicationController
+    
     def index
         current_user
         @posts = Post.all.includes(:user, :likes, comments: :likes)
@@ -9,6 +10,11 @@ class Api::PostsController < ApplicationController
     def create
         @post = Post.new(post_params)
         if @post.save
+            file = Tempfile.new("")
+            file.binmode
+            file << Base64.decode64(params[:post][:base64])
+            file.rewind
+            @post.post_video.attach(io: file, filename: "new video")
             render :show
         else
             render json: @book.errors.full_messages, status: 422
@@ -37,7 +43,7 @@ class Api::PostsController < ApplicationController
 
     private 
 
-    # def post_params
-    #     params.require(:post).permit()
-    # end
+    def post_params
+        params.require(:post).permit(:user_id, :description, :video_uri)
+    end
 end
