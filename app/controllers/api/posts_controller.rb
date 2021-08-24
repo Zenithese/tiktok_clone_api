@@ -15,6 +15,13 @@ class Api::PostsController < ApplicationController
             file << Base64.decode64(params[:post][:base64])
             file.rewind
             @post.post_video.attach(io: file, filename: "new video")
+
+            thumbnail = Tempfile.new("")
+            thumbnail.binmode
+            thumbnail << Base64.decode64(params[:post][:thumbnail])
+            thumbnail.rewind
+            @post.thumbnail.attach(io: thumbnail, filename: `#{@post.id}-#{@post.user_id}`)
+
             render :show
         else
             render json: @book.errors.full_messages, status: 422

@@ -1,11 +1,12 @@
 # json.extract! post, :id, :video_uri, :description, :audio_name, :audio_uri, :kind, :user, :likes, :comments
 
 json.id post.id
-json.video_uri post.video_uri
+json.video_uri post.post_video.url || post.video_uri
+json.thumbnail post.thumbnail.url
 json.description post.description
-json.audio_name post.audio_name
+json.audio_name post.audio_name 
 json.audio_uri post.audio_uri
-json.kind post.kind
+json.kind post.kind || "post"
 json.user do
     json.username post.user.username
     json.image_uri post.user.user_image.url

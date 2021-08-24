@@ -30,6 +30,16 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :amazon_dev
 
+  # declare inline content types
+  config.active_storage.content_types_allowed_inline += [
+  "audio/mp3",
+  "audio/mp4",
+  "audio/mpeg",
+  "video/mp3",
+  "video/mp4",
+  "video/mpeg",
+]
+
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
