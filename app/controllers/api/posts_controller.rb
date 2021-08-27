@@ -20,7 +20,7 @@ class Api::PostsController < ApplicationController
             thumbnail.binmode
             thumbnail << Base64.decode64(params[:post][:thumbnail])
             thumbnail.rewind
-            @post.thumbnail.attach(io: thumbnail, filename: `#{@post.id}-#{@post.user_id}`)
+            @post.thumbnail.attach(io: thumbnail, filename: `new thumbnail`)
 
             render :show
         else
