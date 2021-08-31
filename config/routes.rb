@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :likes, only: [:index, :create, :destroy]
     resources :notifications, only: [:index, :update]
     resources :comments, only: [:create, :destroy]
+    resources :hashtags, only: [:index, :create, :destroy]
     get 'validate_token' => 'sessions#validate_token'
   end
 end
